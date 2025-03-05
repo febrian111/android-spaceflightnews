@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Spaceflight News"
 include(":app")
 include(":domain")
+include(":data")
