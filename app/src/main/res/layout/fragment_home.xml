@@ -38,6 +38,17 @@
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:text="@string/label_articles"/>
 
+    <TextView
+        android:id="@+id/tv_label_article_see_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+        android:text="@string/label_see_more"/>
+
     <View
         android:id="@+id/v_div_articles"
         android:layout_width="match_parent"
@@ -66,6 +77,17 @@
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:text="@string/label_blog"/>
 
+    <TextView
+        android:id="@+id/tv_label_blog_see_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rv_articles"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+        android:text="@string/label_see_more"/>
+
     <View
         android:id="@+id/v_div_blog"
         android:layout_width="match_parent"
@@ -93,6 +115,17 @@
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:text="@string/label_report"/>
+
+    <TextView
+        android:id="@+id/tv_label_report_see_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rv_blogs"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+        android:text="@string/label_see_more"/>
 
     <View
         android:id="@+id/v_div_report"

@@ -4,10 +4,11 @@ import kotlinx.coroutines.flow.Flow
 import test.febri.domain.AppDataRepository
 import test.febri.domain.model.ArticleModel
 import test.febri.domain.model.BaseNewsModel
+import test.febri.domain.model.BlogModel
 import test.febri.domain.util.AppConst.SortOrder
 import javax.inject.Inject
 
-class GetArticlesUseCase @Inject constructor(
+class GetBlogsUseCase @Inject constructor(
     private val repository: AppDataRepository
 ) {
     operator fun invoke(
@@ -15,8 +16,8 @@ class GetArticlesUseCase @Inject constructor(
         offset: Int = 0,
         newsSite: String = "",
         sortOrder: SortOrder = SortOrder.SORT_DES_PUBLISH_DATE
-    ): Flow<BaseNewsModel<ArticleModel>> =
-        repository.getArticles(
+    ): Flow<BaseNewsModel<BlogModel>> =
+        repository.getBlogs(
             offset = offset,
             titleQuery = titleQuery,
             newsSite = newsSite,

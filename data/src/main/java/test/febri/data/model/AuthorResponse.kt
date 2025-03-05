@@ -2,7 +2,7 @@ package test.febri.data.model
 
 data class AuthorResponse(
     val name: String,
-    val socials: SocialsResponse
+    val socials: SocialsResponse?
 )
 
 data class SocialsResponse(

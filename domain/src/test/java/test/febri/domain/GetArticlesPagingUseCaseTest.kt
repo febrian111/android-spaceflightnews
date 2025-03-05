@@ -14,20 +14,20 @@ import org.mockito.junit.MockitoJUnitRunner
 import test.febri.domain.model.ArticleModel
 import test.febri.domain.model.Author
 import test.febri.domain.model.Socials
-import test.febri.domain.usecase.GetArticlesUseCase
+import test.febri.domain.usecase.GetArticlesPagingUseCase
 import test.febri.domain.util.AppConst
 
 @RunWith(MockitoJUnitRunner::class)
-class GetArticlesUseCaseTest {
+class GetArticlesPagingUseCaseTest {
 
-    private lateinit var getArticlesUseCase: GetArticlesUseCase
+    private lateinit var getArticlesPagingUseCase: GetArticlesPagingUseCase
 
     @Mock
     private lateinit var repository: AppDataRepository
 
     @Before
     fun setup() {
-        getArticlesUseCase = GetArticlesUseCase(repository)
+        getArticlesPagingUseCase = GetArticlesPagingUseCase(repository)
     }
 
     @Test
@@ -97,7 +97,7 @@ class GetArticlesUseCaseTest {
                 sortOrder = AppConst.SortOrder.SORT_ASC_PUBLISH_DATE
             )
 
-        val result = getArticlesUseCase(
+        val result = getArticlesPagingUseCase(
             titleQuery = "",
             newsSite = "",
             sortOrder = AppConst.SortOrder.SORT_ASC_PUBLISH_DATE
