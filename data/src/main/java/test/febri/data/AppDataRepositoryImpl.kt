@@ -81,7 +81,7 @@ class AppDataRepositoryImpl @Inject constructor(
         val response = remoteDataSource.getBlogs(
             limit = 30,
             offset = offset,
-//            titleQuery = titleQuery,
+            titleQuery = titleQuery,
             newsSite = newsSite,
             ordering = sortOrder.value
         )
@@ -101,7 +101,23 @@ class AppDataRepositoryImpl @Inject constructor(
         titleQuery: String,
         newsSite: String,
         sortOrder: SortOrder
-    ): Flow<BaseNewsModel<ReportModel>> {
-        TODO("Not yet implemented")
+    ): Flow<BaseNewsModel<ReportModel>>  = flow {
+
+        val response = remoteDataSource.getReports(
+            limit = 30,
+            offset = offset,
+            titleQuery = titleQuery,
+            newsSite = newsSite,
+            ordering = sortOrder.value
+        )
+
+        emit(with(response) {
+            BaseNewsModel(
+                count = count,
+                next = next,
+                previous = previous,
+                results = results.map { it.toDomain() })
+        })
+
     }
 }

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalTime
 import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.databinding.FragmentHomeBinding
 import test.febri.spaceflightnews.home.adapter.HomeNewsListAdapter
@@ -77,6 +76,12 @@ class HomeFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = blogAdapter
         }
+        reportAdapter = HomeNewsListAdapter()
+        binding.rvReports.run {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = reportAdapter
+        }
     }
 
     private fun setupListeners() {
@@ -108,6 +113,11 @@ class HomeFragment : Fragment() {
                 launch {
                     viewModel.blogs.collect { blogList ->
                         blogAdapter.submitList(blogList)
+                    }
+                }
+                launch {
+                    viewModel.reports.collect { blogList ->
+                        reportAdapter.submitList(blogList)
                     }
                 }
             }

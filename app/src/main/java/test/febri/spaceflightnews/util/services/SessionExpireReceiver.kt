@@ -51,7 +51,7 @@ class SessionExpireReceiver : BroadcastReceiver() {
             .setContentTitle("Session Expired")
             .setContentText("Your session has expired. Please log in again.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+            .setAutoCancel(false)
             .build()
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {

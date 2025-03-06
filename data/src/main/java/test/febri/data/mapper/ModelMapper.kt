@@ -16,6 +16,8 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+import test.febri.data.model.ReportResponse
+import test.febri.domain.model.ReportModel
 import java.util.Locale
 
 
@@ -47,6 +49,21 @@ fun BlogResponse.toDomain() = BlogModel(
     launches = launches.map { it.toDomain() },
     events = events.map { it.toDomain() },
     authors = authors.map { it.toDomain() }
+)
+
+fun ReportResponse.toDomain() = ReportModel(
+    id = id,
+    title = title.orEmpty(),
+    url = url.orEmpty(),
+    imageUrl = imageUrl.orEmpty(),
+    newsSite = newsSite.orEmpty(),
+    summary = summary.orEmpty(),
+    publishedAt = publishedAt?.dateToStringLocalTime().orEmpty(),
+    updatedAt = updatedAt?.dateToStringLocalTime().orEmpty(),
+    featured = featured,
+    launches = launches?.map { it.toDomain() } ?: listOf(),
+    events = events?.map { it.toDomain() } ?: listOf(),
+    authors = authors?.map { it.toDomain() } ?: listOf()
 )
 
 fun AuthorResponse.toDomain() = Author(

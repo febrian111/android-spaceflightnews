@@ -5,6 +5,7 @@ import retrofit2.http.Query
 import test.febri.data.model.ArticleResponse
 import test.febri.data.model.BaseResponse
 import test.febri.data.model.BlogResponse
+import test.febri.data.model.ReportResponse
 
 interface ApiService {
     @GET("/v4/articles/")
@@ -20,7 +21,17 @@ interface ApiService {
     suspend fun getBlogs(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
+        @Query("title_contains") titleQuery: String,
         @Query("news_site") newsSite: String,
         @Query("ordering") ordering: String
     ): BaseResponse<BlogResponse>
+
+    @GET("/v4/reports/")
+    suspend fun getReports(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Query("title_contains") titleQuery: String,
+        @Query("news_site") newsSite: String,
+        @Query("ordering") ordering: String
+    ): BaseResponse<ReportResponse>
 }

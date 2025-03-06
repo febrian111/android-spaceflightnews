@@ -14,6 +14,7 @@ import test.febri.domain.model.ReportModel
 import test.febri.domain.usecase.GetArticlesPagingUseCase
 import test.febri.domain.usecase.GetArticlesUseCase
 import test.febri.domain.usecase.GetBlogsUseCase
+import test.febri.domain.usecase.GetReportsUseCase
 import javax.inject.Inject
 
 data class HomeUiState(
@@ -29,6 +30,7 @@ class HomeViewModel @Inject constructor(
     private val getArticlesPagingUseCase: GetArticlesPagingUseCase,
     private val getArticlesUseCase: GetArticlesUseCase,
     private val getBlogsUseCase: GetBlogsUseCase,
+    private val getReportsUseCase: GetReportsUseCase
 ) : ViewModel() {
     //How many things are we waiting for to load?
     private val numLoadingItems = MutableStateFlow(0)
@@ -64,16 +66,16 @@ class HomeViewModel @Inject constructor(
                 .collect { baseBlogs ->
                     _blogs.value = baseBlogs.results
                 }
-//
-//            // Fetch reports
-//            getReportsUseCase()
-//                .flatMapLatest { pagingData ->
-//                    pagingData.toListFlow() // Convert PagingData to List
-//                }
-//                .catch { e -> /* Handle error */ }
-//                .collect { reports ->
-//                    _reports.value = reports
-//                }
+        }
+
+        viewModelScope.launch {
+            getReportsUseCase()
+                .catch { e ->
+                    e.printStackTrace()
+                }
+                .collect { baseReports ->
+                    _reports.value = baseReports.results
+                }
         }
     }
 
