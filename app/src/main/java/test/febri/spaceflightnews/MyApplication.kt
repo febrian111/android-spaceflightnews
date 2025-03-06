@@ -8,6 +8,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.android.HiltAndroidApp
+import test.febri.spaceflightnews.util.NotificationHelper
 import javax.inject.Inject
 
 
@@ -17,10 +18,14 @@ class MyApplication : Application() {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
+
     override fun onCreate() {
         super.onCreate()
 
-        AndroidThreeTen.init(this);
+        AndroidThreeTen.init(this)
+        notificationHelper.createNotificationChannel()
     }
 
     private fun createNotificationChannel() {

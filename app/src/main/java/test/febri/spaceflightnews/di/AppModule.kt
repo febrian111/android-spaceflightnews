@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import test.febri.spaceflightnews.util.NotificationHelper
 import test.febri.spaceflightnews.util.UserSessionManager
 import javax.inject.Singleton
 
@@ -26,6 +27,11 @@ object AppModule {
     fun provideAuth0Account(@ApplicationContext context: Context): Auth0 {
         return Auth0("dGhxrJ0lZz7Un6YEXUtS6DcMfo1XrRXa", "dev-xe3xg2qingzvgv8.us.auth0.com")
     }
+
+    @Provides
+    @Singleton
+    fun provideNotifHelper(@ApplicationContext context: Context): NotificationHelper =
+        NotificationHelper(context)
 
 //    @Provides
 //    @Singleton

@@ -14,14 +14,22 @@ import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.callback.Callback
 import com.auth0.android.provider.WebAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import test.febri.spaceflightnews.R
 import test.febri.spaceflightnews.login.LoginActivity
+import test.febri.spaceflightnews.util.NotificationHelper
 import test.febri.spaceflightnews.util.UserSessionManager
 import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SessionExpireReceiver : BroadcastReceiver() {
+
+    @ApplicationContext
+    lateinit var appContext: Context
+
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
 
     @Inject
     lateinit var sessionManager: UserSessionManager
@@ -38,7 +46,8 @@ class SessionExpireReceiver : BroadcastReceiver() {
                 Timber.d("SessionExpireReceiver", "Session expired. Logging out user.")
 
                 // Show push notification
-                showSessionExpiredNotification(it)
+//                showSessionExpiredNotification(it)
+                notificationHelper.showSessionExpiredNotification()
 
                 // Send broadcast to force logout
                 val logoutIntent = Intent("ACTION_FORCE_LOGOUT")
@@ -46,7 +55,7 @@ class SessionExpireReceiver : BroadcastReceiver() {
 
                 // Clear session
                 sessionManager.clearSession()
-                logout(it)
+                logout()
             } else {
                 // Reschedule alarm in case the app restarted
                 sessionExpireAlarm.scheduleSessionExpiration()
@@ -72,18 +81,18 @@ class SessionExpireReceiver : BroadcastReceiver() {
 
 
 
-    private fun logout(context: Context) {
+    private fun logout() {
         WebAuthProvider.logout(accountAuth0)
-            .withScheme(context.getString(R.string.com_auth0_scheme))
-            .start(context, object : Callback<Void?, AuthenticationException> {
+            .withScheme(appContext.getString(R.string.com_auth0_scheme))
+            .start(appContext, object : Callback<Void?, AuthenticationException> {
                 override fun onSuccess(payload: Void?) {
                     // The user has been logged out!
-                    context.startActivity(Intent(context, LoginActivity::class.java))
+                    appContext.startActivity(Intent(appContext, LoginActivity::class.java))
                 }
 
                 override fun onFailure(exception: AuthenticationException) {
 //                    updateUI()
-                    Toast.makeText(context, "Failure: ${exception.getCode()}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(appContext, "Failure: ${exception.getCode()}", Toast.LENGTH_LONG).show()
                 }
             })
     }
