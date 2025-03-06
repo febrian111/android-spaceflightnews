@@ -2,8 +2,7 @@
     <string name="app_name">Spaceflight News</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="home_fragment_label">Home Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="home_fragment_label">Home</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -47,4 +46,8 @@
     <string name="label_blog">Blog</string>
     <string name="label_report">Report</string>
     <string name="label_see_more">See More</string>
+    <string name="label_err_common">Something went wrong, please try again later.</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_filter">Filter</string>
+    <string name="hint_search_news">Search news</string>
 </resources>

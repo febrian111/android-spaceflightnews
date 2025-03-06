@@ -26,6 +26,7 @@ glide = "4.13.2"
 facebookShimmer = "0.5.0"
 jetbrainsKotlinJvm = "1.9.0"
 chucker = "4.1.0"
+timber = "5.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +61,7 @@ facebook-shimmer = {module = "com.facebook.shimmer:shimmer", version.ref = "face
 turbine = {module = "app.cash.turbine:turbine", version.ref = "turbine"}
 chucker = {module = "com.github.chuckerteam.chucker:library", version.ref = "chucker"}
 chucker-noop = {module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker"}
+timber = {module = "com.jakewharton.timber:timber", version.ref = "timber"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

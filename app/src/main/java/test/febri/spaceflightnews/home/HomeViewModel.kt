@@ -3,12 +3,9 @@ package test.febri.spaceflightnews.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
 import test.febri.domain.model.ArticleModel
@@ -17,7 +14,6 @@ import test.febri.domain.model.ReportModel
 import test.febri.domain.usecase.GetArticlesPagingUseCase
 import test.febri.domain.usecase.GetArticlesUseCase
 import test.febri.domain.usecase.GetBlogsUseCase
-import test.febri.spaceflightnews.util.toList
 import javax.inject.Inject
 
 data class HomeUiState(
@@ -58,15 +54,6 @@ class HomeViewModel @Inject constructor(
                 .collect { baseArticles ->
                     _articles.value = baseArticles.results
                 }
-//            getArticlesPagingUseCase()
-//                .flatMapLatest { pagingData ->
-////                    flow<List<ArticleModel>> { pagingData }
-//                    flowOf(pagingData.toList())
-//                }
-//                .catch { e -> /* Handle error */ }
-//                .collect { articles ->
-//                    _articles.value = articles
-//                }
         }
         viewModelScope.launch {
             // Fetch blogs

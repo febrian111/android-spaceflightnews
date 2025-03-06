@@ -9,9 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.databinding.FragmentHomeBinding
 import test.febri.spaceflightnews.home.adapter.HomeNewsListAdapter
 
@@ -58,13 +60,19 @@ class HomeFragment : Fragment() {
 
     private fun setupListeners() {
         binding.tvLabelArticleSeeMore.setOnClickListener {
-            // Handle see more button click
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToSearchNewsFragment(NavConstant.NAV_ARGS_SEARCH_TYPE_ARTICLE)
+            )
         }
         binding.tvLabelBlogSeeMore.setOnClickListener {
-            // Handle see more button click
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToSearchNewsFragment(NavConstant.NAV_ARGS_SEARCH_TYPE_BLOG)
+            )
         }
         binding.tvLabelReportSeeMore.setOnClickListener {
-            // Handle see more button click
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToSearchNewsFragment(NavConstant.NAV_ARGS_SEARCH_TYPE_REPORT)
+            )
         }
     }
 

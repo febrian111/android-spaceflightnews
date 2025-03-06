@@ -14,6 +14,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getArticles(
         limit: Int,
         offset: Int,
+        titleQuery: String,
         newsSite: String,
         ordering: String
     ): BaseResponse<ArticleResponse> =
@@ -22,6 +23,7 @@ class RemoteDataSource @Inject constructor(
                 api.getArticles(
                     limit,
                     offset,
+                    titleQuery,
                     newsSite,
                     ordering
                 )

@@ -59,6 +59,10 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.paging)
     implementation(libs.facebook.shimmer)
+    implementation(libs.timber)
+    implementation(libs.chucker)
+
+    releaseImplementation(libs.chucker.noop)
 
     ksp (libs.hilt.compiler)
     annotationProcessor(libs.glide.compiler)

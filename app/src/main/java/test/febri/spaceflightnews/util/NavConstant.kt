@@ -1,7 +1,11 @@
 package test.febri.githubapp.util
 
 object NavConstant {
-    const val NAV_ARGS_ARTICLE_ID = "article_id"
-    const val NAV_ARGS_BLOG_ID = "blog_id"
-    const val NAV_ARGS_REPORT_ID = "report_id"
+    const val NAV_ARGS_NEWS_ID = "news_id"
+
+    const val NAV_ARGS_SEARCH_TYPE = "search_type"
+
+    const val NAV_ARGS_SEARCH_TYPE_ARTICLE = "article"
+    const val NAV_ARGS_SEARCH_TYPE_BLOG = "blog"
+    const val NAV_ARGS_SEARCH_TYPE_REPORT = "report"
 }

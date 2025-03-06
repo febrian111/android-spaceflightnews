@@ -56,7 +56,7 @@ class AppDataRepositoryImpl @Inject constructor(
         val response = remoteDataSource.getArticles(
             limit = 30,
             offset = offset,
-//            titleQuery = titleQuery,
+            titleQuery = titleQuery,
             newsSite = newsSite,
             ordering = sortOrder.value
         )

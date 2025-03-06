@@ -8,6 +8,7 @@ import test.febri.domain.model.ArticleModel
 
 class ArticlesPagingSource(
 //    private val apiService: SpaceflightNewsApiService
+    private val titleQuery: String = "",
     private val newsSite: String,
     private val sortOrder: String,
     private val remoteDataSource: RemoteDataSource
@@ -22,6 +23,7 @@ class ArticlesPagingSource(
             val response = remoteDataSource.getArticles(
                 limit = LIMIT_PAGE,
                 offset = offset,
+                titleQuery = titleQuery,
                 newsSite = newsSite,
                 ordering = sortOrder
             )
