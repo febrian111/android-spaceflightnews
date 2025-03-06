@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.paging)
     implementation(libs.bundles.retrofit)
     implementation(libs.chucker)
+    implementation(libs.threeten)
 
     releaseImplementation(libs.chucker.noop)
 

@@ -2,20 +2,21 @@ package test.febri.data.mapper
 
 import test.febri.data.model.ArticleResponse
 import test.febri.data.model.AuthorResponse
-import test.febri.data.model.BaseResponse
 import test.febri.data.model.BlogResponse
 import test.febri.data.model.EventResponse
 import test.febri.data.model.LaunchResponse
 import test.febri.data.model.SocialsResponse
-
 import test.febri.domain.model.ArticleModel
 import test.febri.domain.model.Author
-import test.febri.domain.model.BaseNewsModel
 import test.febri.domain.model.BlogModel
 import test.febri.domain.model.Event
 import test.febri.domain.model.Launch
 import test.febri.domain.model.Socials
-
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import java.util.Locale
 
 
 fun ArticleResponse.toDomain() = ArticleModel(
@@ -26,8 +27,8 @@ fun ArticleResponse.toDomain() = ArticleModel(
     imageUrl = imageUrl.orEmpty(),
     newsSite = newsSite.orEmpty(),
     summary = summary.orEmpty(),
-    publishedAt = publishedAt.orEmpty(),
-    updatedAt = updatedAt.orEmpty(),
+    publishedAt = publishedAt?.dateToStringLocalTime().orEmpty(),
+    updatedAt = updatedAt?.dateToStringLocalTime().orEmpty(),
     featured = featured,
     launches = launches?.map { it.toDomain() } ?: listOf(),
     events = events?.map { it.toDomain() } ?: listOf()
@@ -40,8 +41,8 @@ fun BlogResponse.toDomain() = BlogModel(
     imageUrl = imageUrl.orEmpty(),
     newsSite = newsSite,
     summary = summary.orEmpty(),
-    publishedAt = publishedAt,
-    updatedAt = updatedAt,
+    publishedAt = publishedAt?.dateToStringLocalTime().orEmpty(),
+    updatedAt = updatedAt?.dateToStringLocalTime().orEmpty(),
     featured = featured,
     launches = launches.map { it.toDomain() },
     events = events.map { it.toDomain() },
@@ -71,3 +72,16 @@ fun EventResponse.toDomain() = Event(
     eventId = eventId,
     provider = provider.orEmpty()
 )
+
+fun String.dateToStringLocalTime(): String {
+
+    // Parse the string to an Instant
+    val instant: Instant = Instant.parse(this)
+
+    // Convert the Instant to local date and time
+    val localDateTime: ZonedDateTime = instant.atZone(ZoneId.systemDefault())
+
+    // Format the output (optional)
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale("id", "ID"))
+    return localDateTime.format(formatter)
+}

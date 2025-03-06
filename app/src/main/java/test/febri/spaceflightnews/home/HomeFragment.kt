@@ -17,6 +17,7 @@ import org.threeten.bp.LocalTime
 import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.databinding.FragmentHomeBinding
 import test.febri.spaceflightnews.home.adapter.HomeNewsListAdapter
+import java.util.Calendar
 
 
 @AndroidEntryPoint
@@ -48,22 +49,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun generateGreetings() {
-        val currentTime = LocalTime.now()
 
-        binding.tvGreeting.text =
-            if (currentTime.isBefore(LocalTime.NOON) && currentTime.isAfter(LocalTime.of(6, 0))) {
-                "Good Morning"
-            } else if (currentTime.isBefore(
-                    LocalTime.of(
-                        18,
-                        0
-                    )
-                ) && currentTime.isAfter(LocalTime.NOON)
-            ) {
-                "Good Afternoon"
-            } else {
-                "Good Night"
-            }
+        val calendar: Calendar = Calendar.getInstance()
+        val hourOfDay: Int = calendar.get(Calendar.HOUR_OF_DAY) // 24-hour format
+
+
+        // Define the time ranges for greetings
+        binding.tvGreeting.text = if (hourOfDay in 6..11) {
+            "Good Morning"
+        } else if (hourOfDay in 12..17) {
+            "Good Afternoon"
+        } else {
+            "Good Night"
+        }
     }
 
     private fun setupRecyclerView() {
