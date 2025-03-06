@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalTime
 import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.databinding.FragmentHomeBinding
 import test.febri.spaceflightnews.home.adapter.HomeNewsListAdapter
@@ -40,20 +41,42 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        generateGreetings()
         setupRecyclerView()
         observeViewModel()
         setupListeners()
     }
 
+    private fun generateGreetings() {
+        val currentTime = LocalTime.now()
+
+        binding.tvGreeting.text =
+            if (currentTime.isBefore(LocalTime.NOON) && currentTime.isAfter(LocalTime.of(6, 0))) {
+                "Good Morning"
+            } else if (currentTime.isBefore(
+                    LocalTime.of(
+                        18,
+                        0
+                    )
+                ) && currentTime.isAfter(LocalTime.NOON)
+            ) {
+                "Good Afternoon"
+            } else {
+                "Good Night"
+            }
+    }
+
     private fun setupRecyclerView() {
         articleAdapter = HomeNewsListAdapter()
         binding.rvArticles.run {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = articleAdapter
         }
         blogAdapter = HomeNewsListAdapter()
         binding.rvBlogs.run {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = blogAdapter
         }
     }

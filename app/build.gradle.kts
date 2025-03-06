@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.paging)
     implementation(libs.facebook.shimmer)
     implementation(libs.timber)
+    implementation(libs.threeten)
     implementation(libs.chucker)
 
     releaseImplementation(libs.chucker.noop)
