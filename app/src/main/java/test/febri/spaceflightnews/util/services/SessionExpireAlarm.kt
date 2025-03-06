@@ -29,7 +29,7 @@ class SessionExpireAlarm @Inject constructor(
         )
 
         // Set expiration time in SharedPreferences
-        val expirationTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2)
+        val expirationTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(UserSessionManager.SESSION_DURATION)
         sessionManager.setSessionExpiration(expirationTime)
 
         // Schedule alarm

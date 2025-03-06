@@ -9,6 +9,10 @@ import javax.inject.Singleton
 @Singleton
 class UserSessionManager @Inject constructor(@ApplicationContext context: Context) {
 
+    companion object {
+        const val SESSION_DURATION = 10L //in minutes
+    }
+
     private val prefs: SharedPreferences = context.getSharedPreferences("session_prefs", Context.MODE_PRIVATE)
 
     fun setSessionExpiration(timeInMillis: Long) {
