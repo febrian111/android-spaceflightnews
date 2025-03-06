@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.hilt)
+    implementation(libs.hilt.worker)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.glide)
@@ -61,6 +62,7 @@ dependencies {
     implementation(libs.facebook.shimmer)
     implementation(libs.timber)
     implementation(libs.threeten)
+    implementation(libs.workmanager)
     implementation(libs.chucker)
 
     releaseImplementation(libs.chucker.noop)

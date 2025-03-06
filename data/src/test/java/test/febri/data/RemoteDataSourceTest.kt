@@ -61,6 +61,7 @@ class RemoteDataSourceTest {
         doReturn(baseResponse).`when`(apiService).getArticles(
             limit = 30,
             offset = 0,
+            titleQuery = "",
             newsSite = "",
             ordering = "published_at"
         )
@@ -68,6 +69,7 @@ class RemoteDataSourceTest {
         val result = remoteDataSource.getArticles(
             limit = 30,
             offset = 0,
+            titleQuery = "",
             newsSite = "",
             ordering = "published_at")
 
@@ -76,6 +78,7 @@ class RemoteDataSourceTest {
         verify(apiService).getArticles(
             limit = 30,
             offset = 0,
+            titleQuery = "",
             newsSite = "",
             ordering = "published_at"
         )
