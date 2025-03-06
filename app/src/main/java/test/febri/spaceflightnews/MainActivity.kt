@@ -23,8 +23,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.auth0.android.Auth0
+import com.auth0.android.authentication.AuthenticationException
+import com.auth0.android.callback.Callback
+import com.auth0.android.provider.WebAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import test.febri.spaceflightnews.databinding.ActivityMainBinding
+import test.febri.spaceflightnews.login.LoginActivity
 import test.febri.spaceflightnews.util.services.SessionExpireAlarm
 import javax.inject.Inject
 
@@ -44,6 +49,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private lateinit var account: Auth0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        account = Auth0(
+            getString(R.string.com_auth0_client_id),
+            getString(R.string.com_auth0_domain)
+        )
 
         requestNotificationPermission()
 
@@ -74,15 +86,21 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(logoutIntent)
 //            finish()
             Toast.makeText(this@MainActivity, "Logout", Toast.LENGTH_LONG).show()
+            logout()
         }
     }
 
     override fun onStart() {
         super.onStart()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(logoutReceiver, IntentFilter("ACTION_FORCE_LOGOUT"), RECEIVER_NOT_EXPORTED)
+            registerReceiver(
+                logoutReceiver,
+                IntentFilter("ACTION_FORCE_LOGOUT"),
+                RECEIVER_NOT_EXPORTED
+            )
         } else {
-            LocalBroadcastManager.getInstance(this).registerReceiver(logoutReceiver, IntentFilter("ACTION_FORCE_LOGOUT"))
+            LocalBroadcastManager.getInstance(this)
+                .registerReceiver(logoutReceiver, IntentFilter("ACTION_FORCE_LOGOUT"))
 //            registerReceiver(logoutReceiver, IntentFilter("ACTION_FORCE_LOGOUT"))
         }
     }
@@ -121,7 +139,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
@@ -139,6 +161,23 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton("Cancel", null)
                 .show()
         }
+    }
+
+    private fun logout() {
+        WebAuthProvider.logout(account)
+            .withScheme(getString(R.string.com_auth0_scheme))
+            .start(this, object : Callback<Void?, AuthenticationException> {
+                override fun onSuccess(payload: Void?) {
+                    // The user has been logged out!
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                    finish()
+                }
+
+                override fun onFailure(exception: AuthenticationException) {
+//                    updateUI()
+                    Toast.makeText(this@MainActivity, "Failure: ${exception.getCode()}", Toast.LENGTH_LONG).show()
+                }
+            })
     }
 
 }

@@ -30,6 +30,7 @@ chucker = "4.1.0"
 timber = "5.0.1"
 threeTen = "1.4.8"
 workmanager = "2.9.0"
+auth0 = "2.9.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +69,7 @@ chucker-noop = {module = "com.github.chuckerteam.chucker:library-no-op", version
 timber = {module = "com.jakewharton.timber:timber", version.ref = "timber"}
 threeten = {module = "com.jakewharton.threetenabp:threetenabp", version.ref = "threeTen"}
 workmanager = {module = "androidx.work:work-runtime-ktx", version.ref = "workmanager"}
+auth0 = {module = "com.auth0.android:auth0", version.ref = "auth0"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

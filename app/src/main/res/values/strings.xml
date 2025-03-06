@@ -1,4 +1,9 @@
 <resources>
+
+    <string name="com_auth0_client_id">dGhxrJ0lZz7Un6YEXUtS6DcMfo1XrRXa</string>
+    <string name="com_auth0_domain">dev-xe3xg2qingzvgv8.us.auth0.com</string>
+    <string name="com_auth0_scheme">demo</string>
+
     <string name="app_name">Spaceflight News</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->

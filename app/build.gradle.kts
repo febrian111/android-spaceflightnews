@@ -16,6 +16,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+//        manifestPlaceholders = [auth0Domain: "@string/com_auth0_domain", auth0Scheme: "@string/com_auth0_scheme"]
+
+        manifestPlaceholders ["auth0Domain"] = "@string/com_auth0_domain"
+        manifestPlaceholders ["auth0Scheme"] = "@string/com_auth0_scheme"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,6 +68,7 @@ dependencies {
     implementation(libs.threeten)
     implementation(libs.workmanager)
     implementation(libs.chucker)
+    implementation(libs.auth0)
 
     releaseImplementation(libs.chucker.noop)
 

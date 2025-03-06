@@ -2,6 +2,7 @@ package test.febri.spaceflightnews.di
 
 
 import android.content.Context
+import com.auth0.android.Auth0
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,12 @@ object AppModule {
     @Singleton
     fun provideSessionManager(@ApplicationContext context: Context): UserSessionManager {
         return UserSessionManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuth0Account(@ApplicationContext context: Context): Auth0 {
+        return Auth0("dGhxrJ0lZz7Un6YEXUtS6DcMfo1XrRXa", "dev-xe3xg2qingzvgv8.us.auth0.com")
     }
 
 //    @Provides

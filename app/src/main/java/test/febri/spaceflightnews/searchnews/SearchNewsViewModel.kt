@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,8 +24,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import test.febri.domain.usecase.GetArticlesUseCase
 import test.febri.domain.usecase.GetBlogsUseCase
+import test.febri.domain.usecase.GetReportsUseCase
+import test.febri.domain.util.AppConst
 import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.searchnews.adapter.SearchArticlePagingSource
+import test.febri.spaceflightnews.searchnews.adapter.SearchBlogPagingSource
+import test.febri.spaceflightnews.searchnews.adapter.SearchReportPagingSource
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -32,13 +37,21 @@ import javax.inject.Inject
 class SearchNewsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getArticlesUseCase: GetArticlesUseCase,
-    private val getBlogsUseCase: GetBlogsUseCase
+    private val getBlogsUseCase: GetBlogsUseCase,
+    private val getReportsUseCase: GetReportsUseCase
 ) : ViewModel() {
 
-    val searchType = savedStateHandle.getStateFlow<String>(NavConstant.NAV_ARGS_SEARCH_TYPE, "News Search")
+    val searchType =
+        savedStateHandle.getStateFlow<String>(NavConstant.NAV_ARGS_SEARCH_TYPE, "News Search")
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
+
+    private val _newsSite = MutableStateFlow("")
+    val newsSite = _newsSite.asStateFlow()
+
+    private val _sortOrder = MutableStateFlow(AppConst.SortOrder.SORT_DES_PUBLISH_DATE)
+    val sortOrder = _sortOrder.asStateFlow()
 
     private val _refreshing = MutableStateFlow(false)
     val refreshing = _refreshing.asStateFlow()
@@ -47,9 +60,11 @@ class SearchNewsViewModel @Inject constructor(
 
     val news = combine(
         _refreshTriggerShared.onStart { emit(Unit) },
-        searchQuery.debounce(300L)
-    ) { _, query ->
-        query to Unit
+        searchQuery.debounce(300L),
+        newsSite,
+        sortOrder
+    ) { _, query, newsSite, sortOrder ->
+        query to Unit // todo map to an object filter
     }.flatMapLatest { (query, _) ->
         Pager(
             config = PagingConfig(
@@ -60,7 +75,9 @@ class SearchNewsViewModel @Inject constructor(
             pagingSourceFactory = {
                 SearchArticlePagingSource(
                     getArticlesUseCase = getArticlesUseCase,
-                    query = query
+                    query = query,
+                    newsSite = "",
+                    sortOrder = AppConst.SortOrder.SORT_DES_PUBLISH_DATE
                 )
             }
         ).flow
