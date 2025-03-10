@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,14 +21,13 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import test.febri.domain.model.SortFilterItemModel
 import test.febri.domain.usecase.GetArticlesUseCase
 import test.febri.domain.usecase.GetBlogsUseCase
 import test.febri.domain.usecase.GetReportsUseCase
 import test.febri.domain.util.AppConst
 import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.searchnews.adapter.SearchArticlePagingSource
-import test.febri.spaceflightnews.searchnews.adapter.SearchBlogPagingSource
-import test.febri.spaceflightnews.searchnews.adapter.SearchReportPagingSource
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -58,14 +56,35 @@ class SearchNewsViewModel @Inject constructor(
 
     private val _refreshTriggerShared = MutableSharedFlow<Unit>(replay = 1)
 
+    private val _sortOptions = MutableStateFlow<List<SortFilterItemModel>>(listOf())
+    val sortOptions = _sortOptions.asStateFlow() // todo should be observed by ui
+
+    private val _newsSiteOptions = MutableStateFlow<List<SortFilterItemModel>>(listOf())
+    val newsSiteOptions = _newsSiteOptions.asStateFlow() // todo should be observed by ui
+
+    init {
+        initSorByOptions()
+    }
+
+    private fun initSorByOptions() {
+        val sortByOptions = mutableListOf<SortFilterItemModel>()
+        enumValues<AppConst.SortOrder>().forEach {
+            val sortFilterItemModel = SortFilterItemModel(value = it.value, label = it.displayName)
+            sortFilterItemModel.isSelected = sortFilterItemModel.value == sortOrder.value.value
+            sortByOptions.add(sortFilterItemModel)
+        }
+        _sortOptions.value = sortByOptions
+    }
+
     val news = combine(
         _refreshTriggerShared.onStart { emit(Unit) },
         searchQuery.debounce(300L),
         newsSite,
         sortOrder
     ) { _, query, newsSite, sortOrder ->
-        query to Unit // todo map to an object filter
-    }.flatMapLatest { (query, _) ->
+//        query to newsSite // todo map to an object filter
+        Triple(query, newsSite, sortOrder)
+    }.flatMapLatest { (query, newsSite, sortOrder) ->
         Pager(
             config = PagingConfig(
                 pageSize = SearchArticlePagingSource.PAGE_SIZE,
@@ -76,8 +95,8 @@ class SearchNewsViewModel @Inject constructor(
                 SearchArticlePagingSource(
                     getArticlesUseCase = getArticlesUseCase,
                     query = query,
-                    newsSite = "",
-                    sortOrder = AppConst.SortOrder.SORT_DES_PUBLISH_DATE
+                    newsSite = newsSite,
+                    sortOrder = sortOrder
                 )
             }
         ).flow
@@ -90,6 +109,17 @@ class SearchNewsViewModel @Inject constructor(
 
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
+    }
+
+    fun setNewsSite(newsSite: String) {
+        _newsSite.value = newsSite
+    }
+
+    fun setSortOrder(sortFilterItemModel: SortFilterItemModel) {
+        _sortOrder.value = when (sortFilterItemModel.value) {
+            "published_at" -> AppConst.SortOrder.SORT_ASC_PUBLISH_DATE
+            else -> AppConst.SortOrder.SORT_DES_PUBLISH_DATE
+        }
     }
 
     fun refresh() {

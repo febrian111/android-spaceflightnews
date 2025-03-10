@@ -16,9 +16,15 @@ import kotlinx.coroutines.launch
 import test.febri.githubapp.util.NavConstant
 import test.febri.spaceflightnews.databinding.FragmentSearchNewsBinding
 import test.febri.spaceflightnews.searchnews.adapter.NewsPagingAdapter
+import test.febri.spaceflightnews.searchnews.dialog.SortFilterBottomListDialogFragment
 
 @AndroidEntryPoint
 class SearchNewsFragment : Fragment() {
+
+    companion object {
+        const val SORT = "sort"
+        const val FILTER = "filter"
+    }
 
     private var _binding: FragmentSearchNewsBinding? = null
     private val binding get() = _binding!!
@@ -73,6 +79,7 @@ class SearchNewsFragment : Fragment() {
 
         binding.bottomSortButton.setOnClickListener {
             // Implement sort logic (e.g., toggle between newest and oldest)
+            SortFilterBottomListDialogFragment(viewModel).show(childFragmentManager, SORT)
         }
     }
 
